@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSI Model Simulator – Data Encapsulation &amp; Decapsulation</title>
+  <meta name="description" content="Interactive educational simulator demonstrating data encapsulation and decapsulation through all 7 layers of the OSI model." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="main-header">
+    <h1>OSI Model Simulator</h1>
+    <p class="subtitle">Simulation of Data Encapsulation &amp; Decapsulation</p>
+  </header>
+
+  <!-- ===== INPUT SECTION ===== -->
+  <section id="input-section" class="card">
+    <h2>Configuration</h2>
+    <div class="input-grid">
+      <div class="input-group">
+        <label for="sender-device">Sender Device</label>
+        <select id="sender-device"></select>
+      </div>
+      <div class="input-group">
+        <label for="receiver-device">Receiver Device</label>
+        <select id="receiver-device"></select>
+      </div>
+      <div class="input-group">
+        <label for="message-input">Message / Data</label>
+        <input type="text" id="message-input" placeholder="e.g. Hello World" autocomplete="off" />
+      </div>
+      <div class="input-group">
+        <label for="transport-protocol">Transport Protocol</label>
+        <select id="transport-protocol">
+          <option value="TCP">TCP</option>
+          <option value="UDP">UDP</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="encoding-type">Encoding Technique</label>
+        <select id="encoding-type">
+          <option value="UTF-8">UTF-8</option>
+          <option value="ASCII">ASCII</option>
+          <option value="Base64">Base64</option>
+        </select>
+      </div>
+    </div>
+    <p id="validation-msg" class="validation-msg" role="alert"></p>
+  </section>
+
+  <!-- ===== DEVICE INFO CARDS ===== -->
+  <section id="device-info-section">
+    <div class="device-card sender-device-card card" id="sender-info-card">
+      <div class="device-card-header">
+        <span class="device-card-icon">📤</span>
+        <h3>Sender</h3>
+      </div>
+      <div class="device-card-body" id="sender-info-body">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+    <div class="device-card receiver-device-card card" id="receiver-info-card">
+      <div class="device-card-header">
+        <span class="device-card-icon">📥</span>
+        <h3>Receiver</h3>
+      </div>
+      <div class="device-card-body" id="receiver-info-body">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTROLS ===== -->
+  <section id="controls-section" class="card">
+    <h2>Controls</h2>
+    <div class="controls-row">
+      <button id="btn-next" class="btn btn-primary">⏭ Next Step</button>
+      <button id="btn-reset" class="btn btn-danger" disabled>⟲ Reset</button>
+    </div>
+  </section>
+
+  <!-- ===== PROGRESS ===== -->
+  <section id="progress-section" class="card">
+    <div class="progress-header">
+      <span id="progress-label">Step 0 / 14</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div id="progress-bar" class="progress-fill" style="width:0%"></div>
+    </div>
+  </section>
+
+  <!-- ===== LEGEND ===== -->
+  <section id="legend-section" class="card legend-card">
+    <h2>Legend</h2>
+    <div class="legend-items">
+      <span class="legend-item"><span class="legend-swatch legend-inactive"></span> Inactive</span>
+      <span class="legend-item"><span class="legend-swatch legend-active"></span> Active</span>
+      <span class="legend-item"><span class="legend-swatch legend-completed"></span> Completed</span>
+    </div>
+  </section>
+
+  <!-- ===== SIMULATION AREA ===== -->
+  <section id="simulation-area">
+    <!-- Sender Panel -->
+    <div class="osi-panel sender-panel" id="sender-panel">
+      <h3 class="panel-title sender-title" id="sender-label">Sender</h3>
+      <div class="layer-stack" id="sender-layers">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Center Panel -->
+    <div class="center-panel" id="center-panel">
+      <!-- Current Data Box -->
+      <div class="current-data-box card" id="current-data-box">
+        <h3>Current Data / PDU</h3>
+        <pre id="current-data-display">—</pre>
+      </div>
+
+      <!-- Packet Animation Area -->
+      <div class="packet-anim-area" id="packet-anim-area">
+        <div class="transmission-line">
+          <div class="packet-dot" id="packet-dot"></div>
+        </div>
+        <p class="transmission-label" id="transmission-label">Awaiting transmission…</p>
+      </div>
+
+      <!-- Step Explanation -->
+      <div class="step-explanation card" id="step-explanation">
+        <h3>Step Details</h3>
+        <table class="detail-table">
+          <tbody>
+            <tr><th>Step</th><td id="detail-step">—</td></tr>
+            <tr><th>Side</th><td id="detail-side">—</td></tr>
+            <tr><th>Layer</th><td id="detail-layer">—</td></tr>
+            <tr><th>Action</th><td id="detail-action">—</td></tr>
+            <tr><th>PDU</th><td id="detail-pdu">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Receiver Panel -->
+    <div class="osi-panel receiver-panel" id="receiver-panel">
+      <h3 class="panel-title receiver-title" id="receiver-label">Receiver</h3>
+      <div class="layer-stack" id="receiver-layers">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SUCCESS OVERLAY ===== -->
+  <div id="success-overlay" class="success-overlay hidden">
+    <div class="success-popup">
+      <p>✅ Transmission Completed</p>
+      <p id="success-detail" class="success-detail-text"></p>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="main-footer">
+    <p>Built as a <strong>Data Communication</strong> concept simulator &bull; OSI Model Educational Tool</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
