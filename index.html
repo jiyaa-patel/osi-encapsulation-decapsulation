@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OSI Model Simulator – Data Encapsulation &amp; Decapsulation</title>
-  <meta name="description" content="Interactive educational simulator demonstrating data encapsulation and decapsulation through all 7 layers of the OSI model." />
+  <meta name="description"
+    content="Interactive educational simulator demonstrating data encapsulation and decapsulation through all 7 layers of the OSI model." />
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 </head>
+
 <body>
 
   <!-- ===== HEADER ===== -->
@@ -57,7 +62,7 @@
   <section id="device-info-section">
     <div class="device-card sender-device-card card" id="sender-info-card">
       <div class="device-card-header">
-        <span class="device-card-icon">📤</span>
+        <span class="device-card-icon"></span>
         <h3>Sender</h3>
       </div>
       <div class="device-card-body" id="sender-info-body">
@@ -66,7 +71,7 @@
     </div>
     <div class="device-card receiver-device-card card" id="receiver-info-card">
       <div class="device-card-header">
-        <span class="device-card-icon">📥</span>
+        <span class="device-card-icon"></span>
         <h3>Receiver</h3>
       </div>
       <div class="device-card-body" id="receiver-info-body">
@@ -136,11 +141,26 @@
         <h3>Step Details</h3>
         <table class="detail-table">
           <tbody>
-            <tr><th>Step</th><td id="detail-step">—</td></tr>
-            <tr><th>Side</th><td id="detail-side">—</td></tr>
-            <tr><th>Layer</th><td id="detail-layer">—</td></tr>
-            <tr><th>Action</th><td id="detail-action">—</td></tr>
-            <tr><th>PDU</th><td id="detail-pdu">—</td></tr>
+            <tr>
+              <th>Step</th>
+              <td id="detail-step">—</td>
+            </tr>
+            <tr>
+              <th>Side</th>
+              <td id="detail-side">—</td>
+            </tr>
+            <tr>
+              <th>Layer</th>
+              <td id="detail-layer">—</td>
+            </tr>
+            <tr>
+              <th>Action</th>
+              <td id="detail-action">—</td>
+            </tr>
+            <tr>
+              <th>PDU</th>
+              <td id="detail-pdu">—</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -170,4 +190,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>

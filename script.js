@@ -11,11 +11,11 @@
 
 // ─── Predefined Network Devices ──────────────────────────────
 const devices = [
-  { name: 'Office-PC',     ip: '192.168.1.10',  mac: 'AA:BB:CC:DD:EE:01', port: 80  },
-  { name: 'Lab-PC',        ip: '192.168.1.25',  mac: 'AA:BB:CC:DD:EE:02', port: 21  },
-  { name: 'Admin-System',  ip: '10.0.0.5',      mac: 'AA:BB:CC:DD:EE:03', port: 25  },
-  { name: 'Student-Node',  ip: '172.16.0.100',  mac: 'AA:BB:CC:DD:EE:04', port: 53  },
-  { name: 'Server-01',     ip: '192.168.1.100', mac: 'AA:BB:CC:DD:EE:FF', port: 443 }
+  { name: 'Office-PC', ip: '192.168.1.10', mac: 'AA:BB:CC:DD:EE:01', port: 80 },
+  { name: 'Lab-PC', ip: '192.168.1.25', mac: 'AA:BB:CC:DD:EE:02', port: 21 },
+  { name: 'Admin-System', ip: '10.0.0.5', mac: 'AA:BB:CC:DD:EE:03', port: 25 },
+  { name: 'Student-Node', ip: '172.16.0.100', mac: 'AA:BB:CC:DD:EE:04', port: 53 },
+  { name: 'Server-01', ip: '192.168.1.100', mac: 'AA:BB:CC:DD:EE:FF', port: 443 }
 ];
 
 // ─── Layer Metadata ──────────────────────────────────────────
@@ -70,40 +70,40 @@ let currentStep = -1;
 let isRunning = false;   // tracks whether a simulation is active
 
 // ─── DOM References ──────────────────────────────────────────
-const $senderDevice   = document.getElementById('sender-device');
+const $senderDevice = document.getElementById('sender-device');
 const $receiverDevice = document.getElementById('receiver-device');
-const $messageInput   = document.getElementById('message-input');
+const $messageInput = document.getElementById('message-input');
 const $transportProto = document.getElementById('transport-protocol');
-const $encodingType   = document.getElementById('encoding-type');
-const $validationMsg  = document.getElementById('validation-msg');
+const $encodingType = document.getElementById('encoding-type');
+const $validationMsg = document.getElementById('validation-msg');
 
-const $btnNext  = document.getElementById('btn-next');
+const $btnNext = document.getElementById('btn-next');
 const $btnReset = document.getElementById('btn-reset');
 
 const $progressLabel = document.getElementById('progress-label');
-const $progressPct   = document.getElementById('progress-pct');
-const $progressBar   = document.getElementById('progress-bar');
+const $progressPct = document.getElementById('progress-pct');
+const $progressBar = document.getElementById('progress-bar');
 
-const $senderLayers   = document.getElementById('sender-layers');
+const $senderLayers = document.getElementById('sender-layers');
 const $receiverLayers = document.getElementById('receiver-layers');
-const $senderLabel    = document.getElementById('sender-label');
-const $receiverLabel  = document.getElementById('receiver-label');
+const $senderLabel = document.getElementById('sender-label');
+const $receiverLabel = document.getElementById('receiver-label');
 
-const $currentData     = document.getElementById('current-data-display');
-const $packetDot       = document.getElementById('packet-dot');
+const $currentData = document.getElementById('current-data-display');
+const $packetDot = document.getElementById('packet-dot');
 const $transmissionLbl = document.getElementById('transmission-label');
 
-const $detailStep      = document.getElementById('detail-step');
-const $detailSide      = document.getElementById('detail-side');
-const $detailLayer     = document.getElementById('detail-layer');
-const $detailAction    = document.getElementById('detail-action');
-const $detailPdu       = document.getElementById('detail-pdu');
+const $detailStep = document.getElementById('detail-step');
+const $detailSide = document.getElementById('detail-side');
+const $detailLayer = document.getElementById('detail-layer');
+const $detailAction = document.getElementById('detail-action');
+const $detailPdu = document.getElementById('detail-pdu');
 
-const $senderInfoBody   = document.getElementById('sender-info-body');
+const $senderInfoBody = document.getElementById('sender-info-body');
 const $receiverInfoBody = document.getElementById('receiver-info-body');
 
 const $successOverlay = document.getElementById('success-overlay');
-const $successDetail  = document.getElementById('success-detail');
+const $successDetail = document.getElementById('success-detail');
 
 // ─── Populate Device Dropdowns ───────────────────────────────
 function populateDeviceDropdowns() {
@@ -125,20 +125,16 @@ function populateDeviceDropdowns() {
 
 // ─── Render Device Info Card ─────────────────────────────────
 function renderDeviceInfo(device, container) {
-  const tp  = $transportProto.value;
-  const enc = $encodingType.value;
   container.innerHTML = `
     <div class="device-info-row"><span class="device-info-label">Name</span><span class="device-info-value">${device.name}</span></div>
     <div class="device-info-row"><span class="device-info-label">IP</span><span class="device-info-value">${device.ip}</span></div>
     <div class="device-info-row"><span class="device-info-label">MAC</span><span class="device-info-value">${device.mac}</span></div>
     <div class="device-info-row"><span class="device-info-label">Port</span><span class="device-info-value">${device.port}</span></div>
-    <div class="device-info-row"><span class="device-info-label">Trans</span><span class="protocol-badge badge-transport">${tp}</span></div>
-    <div class="device-info-row"><span class="device-info-label">Encode</span><span class="protocol-badge badge-encoding">${enc}</span></div>
   `;
 }
 
 function updateDeviceCards() {
-  const sender   = devices[parseInt($senderDevice.value)];
+  const sender = devices[parseInt($senderDevice.value)];
   const receiver = devices[parseInt($receiverDevice.value)];
   renderDeviceInfo(sender, $senderInfoBody);
   renderDeviceInfo(receiver, $receiverInfoBody);
@@ -147,7 +143,7 @@ function updateDeviceCards() {
 // ─── Initialise Layer Boxes ──────────────────────────────────
 function initLayerBoxes() {
   [{ container: $senderLayers, side: 'sender' },
-   { container: $receiverLayers, side: 'receiver' }].forEach(({ container, side }) => {
+  { container: $receiverLayers, side: 'receiver' }].forEach(({ container, side }) => {
     container.innerHTML = '';
     layerInfo.forEach((layer) => {
       const box = document.createElement('div');
@@ -164,7 +160,7 @@ function initLayerBoxes() {
   });
 }
 
-// ─── Helpers ─────────────────────────────────────────────────
+// ─── Helpers ────────────────────────────────────────────────
 
 // Convert string → 8-bit binary per character
 function toBinary(str) {
@@ -196,9 +192,9 @@ function generateFCS(message) {
 function buildSteps(sender, receiver, message, tp, enc) {
   const steps = [];
   const sessionId = generateSessionId();
-  const srcPort   = generateSrcPort();
-  const dstPort   = receiver.port;
-  const fcs       = generateFCS(message);
+  const srcPort = generateSrcPort();
+  const dstPort = receiver.port;
+  const fcs = generateFCS(message);
 
   // ──── ENCAPSULATION (Sender) ────
 
@@ -379,19 +375,19 @@ function handlePacketAnimation(index, total) {
 
   if (index < senderDone) {
     $packetDot.className = 'packet-dot at-start';
-    $transmissionLbl.textContent = 'Encapsulating data on Sender side…';
+    $transmissionLbl.textContent = '';
   } else if (index === senderDone) {
     $packetDot.className = 'packet-dot';
     requestAnimationFrame(() => {
       $packetDot.classList.add('animate-send');
     });
-    $transmissionLbl.textContent = '⚡ Transmitting bits over the medium…';
+    $transmissionLbl.textContent = '';
   } else if (index >= receiverStart) {
     $packetDot.className = 'packet-dot at-end';
     if (index === total - 1) {
       $transmissionLbl.textContent = '✅ Transmission complete!';
     } else {
-      $transmissionLbl.textContent = 'Decapsulating data on Receiver side…';
+      $transmissionLbl.textContent = '';
     }
   }
 }
@@ -418,14 +414,14 @@ function validate() {
 function startSimulation() {
   if (!validate()) return false;
 
-  const sender   = devices[parseInt($senderDevice.value)];
+  const sender = devices[parseInt($senderDevice.value)];
   const receiver = devices[parseInt($receiverDevice.value)];
-  const message  = $messageInput.value.trim();
-  const tp       = $transportProto.value;
-  const enc      = $encodingType.value;
+  const message = $messageInput.value.trim();
+  const tp = $transportProto.value;
+  const enc = $encodingType.value;
 
   // Update panel labels
-  $senderLabel.textContent   = `Sender – ${sender.name}`;
+  $senderLabel.textContent = `Sender – ${sender.name}`;
   $receiverLabel.textContent = `Receiver – ${receiver.name}`;
 
   // Build dynamic steps
@@ -476,7 +472,7 @@ function nextStep() {
 function finishSimulation() {
   $btnNext.disabled = true;
 
-  const sender   = devices[parseInt($senderDevice.value)];
+  const sender = devices[parseInt($senderDevice.value)];
   const receiver = devices[parseInt($receiverDevice.value)];
   $successDetail.textContent = `${sender.name} → ${receiver.name}`;
   $successOverlay.classList.remove('hidden');
@@ -489,14 +485,14 @@ function resetSimulation() {
   isRunning = false;
 
   toggleInputs(true);
-  $btnNext.disabled  = false;
+  $btnNext.disabled = false;
   $btnReset.disabled = true;
 
   initLayerBoxes();
-  $senderLabel.textContent   = 'Sender';
+  $senderLabel.textContent = 'Sender';
   $receiverLabel.textContent = 'Receiver';
-  $currentData.textContent   = '—';
-  $packetDot.className       = 'packet-dot';
+  $currentData.textContent = '—';
+  $packetDot.className = 'packet-dot';
   $transmissionLbl.textContent = 'Awaiting transmission…';
   $validationMsg.textContent = '';
 
@@ -504,8 +500,8 @@ function resetSimulation() {
     .forEach(el => el.textContent = '—');
 
   $progressLabel.textContent = 'Step 0 / 14';
-  $progressPct.textContent   = '0%';
-  $progressBar.style.width   = '0%';
+  $progressPct.textContent = '0%';
+  $progressBar.style.width = '0%';
 
   $successOverlay.classList.add('hidden');
 
