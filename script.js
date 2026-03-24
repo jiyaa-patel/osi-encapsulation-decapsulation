@@ -1,6 +1,4 @@
 /* ==============================================================
-   OSI MODEL SIMULATOR – script.js
-   ==============================================================
    This script handles:
    1. Predefined devices with realistic network attributes
    2. Layer metadata (layerInfo)
@@ -9,7 +7,7 @@
    5. Simulation controls (Next Step, Reset)
    ============================================================== */
 
-// ─── Predefined Network Devices ──────────────────────────────
+//  Predefined Network Devices ----------------------------
 const devices = [
   { name: 'Office-PC', ip: '192.168.1.10', mac: 'AA:BB:CC:DD:EE:01', port: 80 },
   { name: 'Lab-PC', ip: '192.168.1.25', mac: 'AA:BB:CC:DD:EE:02', port: 21 },
@@ -18,7 +16,7 @@ const devices = [
   { name: 'Server-01', ip: '192.168.1.100', mac: 'AA:BB:CC:DD:EE:FF', port: 443 }
 ];
 
-// ─── Layer Metadata ──────────────────────────────────────────
+//  Layer Metadata ----------------------------
 const layerInfo = [
   {
     num: 7, name: 'Application', pdu: 'Data',
@@ -64,12 +62,12 @@ const layerInfo = [
   }
 ];
 
-// ─── State ───────────────────────────────────────────────────
+//  State ----------------------------
 let simulationSteps = [];
 let currentStep = -1;
 let isRunning = false;   // tracks whether a simulation is active
 
-// ─── DOM References ──────────────────────────────────────────
+//  DOM References ----------------------------
 const $senderDevice = document.getElementById('sender-device');
 const $receiverDevice = document.getElementById('receiver-device');
 const $messageInput = document.getElementById('message-input');
@@ -105,7 +103,7 @@ const $receiverInfoBody = document.getElementById('receiver-info-body');
 const $successOverlay = document.getElementById('success-overlay');
 const $successDetail = document.getElementById('success-detail');
 
-// ─── Populate Device Dropdowns ───────────────────────────────
+//  Populate Device Dropdowns ----------------------------
 function populateDeviceDropdowns() {
   devices.forEach((dev, i) => {
     const optS = document.createElement('option');
@@ -123,7 +121,7 @@ function populateDeviceDropdowns() {
   $receiverDevice.value = 4;
 }
 
-// ─── Render Device Info Card ─────────────────────────────────
+//  Render Device Info Card ----------------------------
 function renderDeviceInfo(device, container) {
   container.innerHTML = `
     <div class="device-info-row"><span class="device-info-label">Name</span><span class="device-info-value">${device.name}</span></div>
@@ -140,7 +138,7 @@ function updateDeviceCards() {
   renderDeviceInfo(receiver, $receiverInfoBody);
 }
 
-// ─── Initialise Layer Boxes ──────────────────────────────────
+//  Initialise Layer Boxes ----------------------------
 function initLayerBoxes() {
   [{ container: $senderLayers, side: 'sender' },
   { container: $receiverLayers, side: 'receiver' }].forEach(({ container, side }) => {
@@ -160,7 +158,7 @@ function initLayerBoxes() {
   });
 }
 
-// ─── Helpers ────────────────────────────────────────────────
+//  Helpers ----------------------------
 
 // Convert string → 8-bit binary per character
 function toBinary(str) {
@@ -188,7 +186,7 @@ function generateFCS(message) {
   return (hash >>> 0).toString(16).toUpperCase().slice(-4).padStart(4, '0');
 }
 
-// ─── Build Simulation Steps (Dynamic) ───────────────────────
+//  Build Simulation Steps (Dynamic) 
 function buildSteps(sender, receiver, message, tp, enc) {
   const steps = [];
   const sessionId = generateSessionId();
@@ -196,7 +194,7 @@ function buildSteps(sender, receiver, message, tp, enc) {
   const dstPort = receiver.port;
   const fcs = generateFCS(message);
 
-  // ──── ENCAPSULATION (Sender) ────
+  //  ENCAPSULATION (Sender) 
 
   // Layer 7 – Application
   const appData = `${tp} DATA: ${message}`;
@@ -257,7 +255,7 @@ function buildSteps(sender, receiver, message, tp, enc) {
     data: binaryBits
   });
 
-  // ──── DECAPSULATION (Receiver) ────
+  //  DECAPSULATION (Receiver) 
 
   // Layer 1 – Physical
   steps.push({
@@ -311,7 +309,7 @@ function buildSteps(sender, receiver, message, tp, enc) {
   return steps;
 }
 
-// ─── Render Current Step ─────────────────────────────────────
+//  Render Current Step ----------------------------
 function renderStep(index) {
   const totalSteps = simulationSteps.length;
   const step = simulationSteps[index];
@@ -349,7 +347,7 @@ function renderStep(index) {
   }
 }
 
-// ─── Layer State Management ─────────────────────────────────
+//  Layer State Management ----------------------------
 function updateLayerStates(currentIndex) {
   document.querySelectorAll('.layer-box').forEach(box => {
     box.classList.remove('active', 'completed');
@@ -368,7 +366,7 @@ function updateLayerStates(currentIndex) {
   });
 }
 
-// ─── Packet Animation ────────────────────────────────────────
+//  Packet Animation ----------------------------
 function handlePacketAnimation(index, total) {
   const senderDone = 6;
   const receiverStart = 7;
@@ -392,7 +390,7 @@ function handlePacketAnimation(index, total) {
   }
 }
 
-// ─── Validation ──────────────────────────────────────────────
+//  Input Validation ----------------------------
 function validate() {
   const sIdx = parseInt($senderDevice.value);
   const rIdx = parseInt($receiverDevice.value);
@@ -410,7 +408,7 @@ function validate() {
   return true;
 }
 
-// ─── Start Simulation (called on first Next Step click) ─────
+//  Start Simulation (called on first Next Step click) 
 function startSimulation() {
   if (!validate()) return false;
 
@@ -448,7 +446,7 @@ function startSimulation() {
   return true;
 }
 
-// ─── Next Step ───────────────────────────────────────────────
+//  Next Step ----------------------------
 function nextStep() {
   // If simulation hasn't started yet, start it first
   if (!isRunning) {
@@ -468,7 +466,7 @@ function nextStep() {
   }
 }
 
-// ─── Finish ──────────────────────────────────────────────────
+//  Finish ----------------------------
 function finishSimulation() {
   $btnNext.disabled = true;
 
@@ -478,7 +476,7 @@ function finishSimulation() {
   $successOverlay.classList.remove('hidden');
 }
 
-// ─── Reset ───────────────────────────────────────────────────
+//  Reset ----------------------------
 function resetSimulation() {
   simulationSteps = [];
   currentStep = -1;
@@ -509,14 +507,14 @@ function resetSimulation() {
   updateDeviceCards();
 }
 
-// ─── Toggle Inputs ───────────────────────────────────────────
+//  Toggle Inputs ----------------------------
 function toggleInputs(enabled) {
   [$senderDevice, $receiverDevice, $messageInput, $transportProto, $encodingType].forEach(el => {
-    el.disabled = !enabled;
+    if (el) el.disabled = !enabled;
   });
 }
 
-// ─── Event Listeners ─────────────────────────────────────────
+//  Event Listeners ----------------------------
 $btnNext.addEventListener('click', nextStep);
 $btnReset.addEventListener('click', resetSimulation);
 
@@ -536,7 +534,7 @@ $messageInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') nextStep();
 });
 
-// ─── Boot ────────────────────────────────────────────────────
+//  Boot ----------------------------
 populateDeviceDropdowns();
 updateDeviceCards();
 initLayerBoxes();
